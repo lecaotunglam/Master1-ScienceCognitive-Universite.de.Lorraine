@@ -1,0 +1,37 @@
+def apply(self, state):
+
+    def get_number( feature ):
+        tok = feature.split('_')
+        return int(tok[1])
+
+    cell_agent = get_number( state[0] )
+    cell_light = get_number( state[1] )
+    print( "agent dans ", cell_agent )
+    print( "light dans ", cell_light )
+
+    def num_ligne( indice ):
+        ligne = 0
+        diff = indice - ligne * 4
+        while diff >= 4:
+            ligne = ligne+1
+            diff = indice - ligne * 4
+        return ligne
+
+    ligne_agent = num_ligne(cell_agent)
+    ligne_light = num_ligne(cell_light)
+    
+    if ligne_light > ligne_agent:
+        return ["move_down()"]
+    if ligne_light < ligne_agent:
+        return ["move_up()"]
+    if cell_agent == (cell_light+4):
+        return ["move_up()"]
+    #if cell_agent == (cell_light-4):
+    #    return ["move_down()"]
+    if cell_agent > cell_light:
+        return ["move_left()"]
+    if cell_agent < cell_light:
+        return ["move_right()"]
+    return ["do_nothing()" ]
+
+

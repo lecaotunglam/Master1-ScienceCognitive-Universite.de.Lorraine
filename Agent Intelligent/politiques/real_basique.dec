@@ -1,0 +1,30 @@
+def apply(self, state):
+        #print( "__DECISION")
+        ## On récupère la valeur des capteurs de distance: state[0] à state[2]
+        ## et on normalise ces valeurs dans le tableau 'sn' pour avoir
+        ## sn[i]=1 : obstacle tout proche dans cette direction 'i'
+        ## sn[i]=0 : pas d'obstacle dans cette direction 'i'
+        max_dist = self.agent.max_dist_perception
+        sn = np.array( state[0:3], dtype=float )
+        sn = 1 - (sn*sn) / (max_dist * max_dist) 
+        #print( " sn={}".format(sn) )
+
+        ## On calcule la vitesse à appliquer à chaque roue.
+        ## vitesse Gauche = 1 - obstacle_proche_gauche - obstacle_proche_devant
+        spd_left = 1 - 0.5*sn[0] - 0.5*sn[1]
+        ## vitesse Droite = 1 - obstacle_proche_devant - obstacle_proche_droite
+        spd_right = 1 - 0.5*sn[1] - 0.5*sn[2]
+        #print( "  dist => {:6.3f}, {:6.3f}".format( spd_left, spd_right ))
+
+        ## and now light sensors [ 1 -> 0 ]
+        ## On utilise la valeur des capteurs de lumière (state[3] et state[4]
+        ## pour attirer l'agent vers la lumièr
+        ## vitesse Gauche multipliée par (1+lumière_proche_droite)
+        spd_left = spd_left *   (1.0 + state[4])    # right sensor
+        ## vitesse Droite multipliée par (1+lumière_proche_gauche)        
+        spd_right = spd_right * (1.0 + state[3])    # left sensor
+
+        ## On construit la commande
+        self.act = "set_speed( "+str(spd_left)+", "+str(spd_right)+" )"
+        #print( "  act="+self.act )
+        return [self.act]

@@ -1,0 +1,14 @@
+def apply(self, state):
+        ## Règles : [conditions1, condition2], "action"
+        self.policy = [ (["cell_0", "light_2"], ["move_right()", "memorize('ZERO')"]),
+                        (["cell_1", "light_2", "ZERO"], ["move_random()", "forget('ZERO')"]),
+                        ([], ["move_random()"])]
+
+        ## Cherche la première règle valide à appliquer
+        ## (note, la condition vide [] est toujours valide)
+        for cond,act in self.policy:
+            if self.is_valid( cond, state ):
+                self.act = act
+                return self.act
+
+

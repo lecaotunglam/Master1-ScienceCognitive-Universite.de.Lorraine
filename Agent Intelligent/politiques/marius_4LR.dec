@@ -1,0 +1,19 @@
+def apply(self, state):
+
+    def get_number( feature ):
+        tok = feature.split('_')
+        return int(tok[1])
+
+    cell_agent = get_number( state[0] )
+    cell_light = get_number( state[1] )
+    print( "agent dans ", cell_agent )
+    print( "light dans ", cell_light )
+    
+    
+    if cell_agent > cell_light:
+        return ["move_left()"]
+    if cell_agent < cell_light:
+        return ["move_right()"]
+    return ["do_nothing()" ]
+
+

@@ -1,0 +1,11 @@
+# Environnement 4 cases
+
+title: Basic
+
+size: 1 x 4
+
+0 1 2 3
+
+# Une lumière dans la cell 2
+light: 2
+
